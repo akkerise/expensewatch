@@ -4,6 +4,7 @@ let bodyParser = require('body-parser');
 let morgan = require('morgan');
 let mongoose = require('mongoose');
 let jwt = require('jsonwebtoken');
+let passport = require('passport');
 
 let config = require('./config');
 let user = require('./routes/users.js');
@@ -44,9 +45,15 @@ app.get('/', function (req, res) {
 	res.send('Expense Watch API is running at http://localhost:' + port + '/api')
 });
 
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+require('./passport')(passport);
+
 app.post('/register', user.signup);
 
-//express router
+// express router
 let apiRoutes = express.Router();
 
 app.use('/api', apiRoutes);
@@ -64,6 +71,8 @@ apiRoutes.get('/user/:id', user.getUserDetails); // API return user details
 
 apiRoutes.put('/user/:id', user.updateUser); // API update user details
 
+apiRoutes.get('/user/:username', user.getUserByUsername); // API return user have username
+
 apiRoutes.put('/password/:id', user.updatePassword); // API update user password
 
 apiRoutes.get('/expense/:id', expense.getExpense); // API add & update expense of the user
@@ -76,6 +85,8 @@ apiRoutes.post('/expense/total/:id', expense.totalExpense); // API return expens
 
 apiRoutes.post('/expense/report/:id', expense.reportExpense); // API return expense report based on user input
 
-app.listen(port);
+app.listen(port, () => {
+	console.log('Server started on port: ' + port);
+});
 
 

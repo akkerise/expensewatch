@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcryptjs');
 const Schema =  mongoose.Schema;
 
 
@@ -30,6 +30,16 @@ UserSchema.pre('save', function(next){
 	});
 });
 
+
+UserSchema.methods.addUser = function(newUser, callback) {
+	bcrypt.genSalt(10, (err, salt) => {
+		bcrypt.hash(newUser.password, salt, (err, hash) => {
+			if(err) throw err;
+			newUser.password = hash;
+			newUser.save(callback);
+		})
+	})
+}
 
 // Method to compare password for login
 

@@ -115,13 +115,13 @@ exports.totalExpense = function (req, res, next) {
   }
 
   Expense.aggregate([
-      match,
-      {
-        '$group': {
-          "_id": 1,
-          "total": {"$sum": '$expenseAmt'}
-        }
-      }],
+    match,
+    {
+      '$group': {
+        "_id": 1,
+        "total": {"$sum": '$expenseAmt'}
+      }
+    }],
     function (err, result) {
       if (err) {
         return res.status(400).json({success: false, message: 'Error processing request ' + err})

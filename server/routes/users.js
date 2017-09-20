@@ -44,13 +44,20 @@ exports.signup = function (req, res, next) {
     })
 
     // Create new user success
-    newUser.save(function (err, newUser) {
-      if (err) return res.status(400).json({success: false, message: 'Error processing request ' + err});
+     
+    // newUser.save(function (err, newUser) {
+    //   if (err) return res.status(400).json({success: false, message: 'Error processing request ' + err});
 
-      return res.status(201).json({
-        success: true,
-        message: 'User created successfully, please login to access your accout.'
-      })
+    //   return res.status(201).json({
+    //     success: true,
+    //     message: 'User created successfully, please login to access your accout.'
+    //   })
+    // })
+    // 
+    
+    newUser.addUser(newUser, (err, data) => {
+      if (err) { return res.status(400).json({success: false, message: 'Failed add new user !'})}
+      return res.status(201).json({success: true, message: 'Success add new user'});
     })
 
   })
@@ -202,6 +209,21 @@ exports.updatePassword = function (req, res, next) {
         }
       }
 
+    })
+  }
+}
+
+
+exports.getUserByUsername = function(req, res, next) {
+  const username = req.body.username;
+
+  if(!username) {
+    return res.status(400).json({success: false, message: 'Posted data is not correct or incomplete.'});
+  }else{
+    User.find({username: username}, function(err, data) {
+      if (err) {return res.status(400).json({success: false, message: 'Error processing request ' + err})}
+      
+      return res.status(201).json({success: true, data: data});
     })
   }
 }
