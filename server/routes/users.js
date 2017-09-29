@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 let User = require('../models/users');
 let jwt = require('jsonwebtoken');
-let config = require('../config');
+let config = require('../config/config');
 
 
 exports.signup = function (req, res, next) {

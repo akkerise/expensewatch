@@ -1,3 +1,4 @@
+let config = require('./config/config');
 let express = require('express');
 let app = express();
 let bodyParser = require('body-parser');
@@ -5,8 +6,6 @@ let morgan = require('morgan');
 let mongoose = require('mongoose');
 let jwt = require('jsonwebtoken');
 let passport = require('passport');
-
-let config = require('./config');
 let user = require('./routes/users.js');
 let expense = require('./routes/expense.js');
 let port = config.serverport;
@@ -18,8 +17,6 @@ mongoose.connect(config.database, function (err) {
     console.log('Connected to database ...')
   }
 });
-
-
 
 
 // use body parser so we can get info from POST and/or URL parameters
@@ -49,7 +46,7 @@ app.get('/', function (req, res) {
 app.use(passport.initialize());
 app.use(passport.session());
 
-require('./passport')(passport);
+require('./config/passport')(passport);
 
 app.post('/register', user.signup);
 

@@ -1,6 +1,6 @@
 let mongoose = require('mongoose');
 let Expense = require('../models/expense');
-let config = require('../config');
+let config = require('../config/config');
 
 exports.saveExpense = function (req, res, next) {
   const uid = req.params.id;
