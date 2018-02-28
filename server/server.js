@@ -82,8 +82,6 @@ apiRoutes.post('/expense/total/:id', expense.totalExpense); // API return expens
 
 apiRoutes.post('/expense/report/:id', expense.reportExpense); // API return expense report based on user input
 
-app.listen(port, () => {
-	console.log('Server started on port: ' + port);
-});
+app.listen(port, () => console.log('Server started on port: ' + port));
 
 
